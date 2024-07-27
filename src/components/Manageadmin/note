@@ -1,0 +1,382 @@
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import Popup from "reactjs-popup";
+import ManageadminForm from "./ManageadminForm";
+import "./Manageadmin.css";
+import Sidebar from "../Sidebar";
+import matrical from "../images/matrical-logo.jpg"
+import SideBaradmin from "../SideBaradmin";
+const Manageadmin = () => {
+  const [admin, setAdmin] = useState([]);
+  const [filteredAdmin, setFilteredAdmin] = useState([]);
+  const [selectedAdmin, setSelectedAdmin] = useState(null);
+  const [isAddPopupOpen, setAddPopupOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [detailsModalOpen, setDetailsModalOpen] = useState(false);
+  const [selectedAdminDetails, setSelectedAdminDetails] = useState(null);
+
+
+
+  useEffect(() => {
+    fetchAdmin();
+  }, []);
+
+  const fetchAdmin = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/admin_data");
+      setAdmin(response.data);
+      setFilteredAdmin(response.data);
+    } catch (error) {
+      console.error("Error fetching admin:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleViewDetails = (selectedAdmin) => {
+    const adminDetails = admin.find((admin) => admin.adminid === selectedAdmin.adminid);
+  
+    if (adminDetails) {
+      setSelectedAdminDetails(adminDetails);
+      setDetailsModalOpen(true);
+    } else {
+      console.error("Admin details not found:", selectedAdmin.adminid);
+    }
+  };
+  
+  const handleEdit = (admin) => {
+    setSelectedAdmin(admin);
+    setAddPopupOpen(true);
+  };
+
+  const handleAddOrUpdate = async (formData) => {
+    try {
+      if (selectedAdmin) {
+        await axios.put(
+          `http://localhost:5000/admin_data/${selectedAdmin.adminId}`,
+          formData
+        );
+      } else {
+        await axios.post("http://localhost:5000/admin_data/add", formData);
+      }
+      fetchAdmin();
+      setSelectedAdmin(null);
+      setAddPopupOpen(false);
+    } catch (error) {
+      console.error("Error adding/updating admin:", error);
+      alert(
+        "Error adding/updating employee. Please check the console for details."
+      );
+    }
+  };
+
+  const handleCancel = () => {
+    setSelectedAdmin(null);
+    setAddPopupOpen(false);
+    setDetailsModalOpen(false);
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://localhost:5000/admin_data/:id/${id}`);
+      fetchAdmin();
+    } catch (error) {
+      console.error("Error deleting admin:", error);
+    }
+  };
+
+  const handleSearch = () => {
+    const searchTermLowerCase = searchTerm.toLowerCase();
+    const filtered = admin.filter(
+      (admin) =>
+        admin.adminid.toLowerCase().includes(searchTermLowerCase) ||
+        admin.fullname.toLowerCase().includes(searchTermLowerCase)
+    );
+    setFilteredAdmin(filtered);
+  };
+
+  return (
+    <div className="mothercontainer-admin">
+      <SideBaradmin />
+      <div className="centerchange12">
+        <div className="employee-table-container">
+          <h2 className="employee-heading">Admin Management</h2>
+          <input
+            className="search1"
+            type="text"
+            placeholder="Search by ID "
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <button className="search-button1" onClick={handleSearch}>
+            Search
+          </button>
+          <div className="overchange34">
+            <table className="employee-table">
+              <thead className="thread45">
+                <tr>
+                  <th>Admin ID</th>
+                  <th>Full Name</th>
+                  {/* <th>Department</th> */}
+                  <th>Date of Birth</th>
+                  <th>Gender</th>
+                  <th>Phone</th>
+                  <th>Address</th>
+                  <th>Role</th>
+                  <th>Email</th>
+                  <th>Password</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody className="flowchain56">
+                {filteredAdmin.map((admin) => (
+                  <tr key={admin.adminid}>
+                    <td
+                      className="clickable"
+                      onClick={() => handleViewDetails(admin)}
+                    >
+                      {admin.adminid}
+                    </td>
+                    <td
+
+                    >{admin.fullname}</td>
+                    {/* <td>{admin.department}</td> */}
+
+                    <td
+                    // className="clickable"
+                    // onClick={() => handleViewDetails(employee)}
+                    >{admin.dateofbirth}</td>
+                    <td>{admin.gender}</td>
+                    <td
+                    // className="clickable"
+                    // onClick={() => handleViewDetails(employee)}
+                    >{admin.phonenumber}</td>
+                    <td>
+                      {admin.CurrentAddress}
+                    </td>
+                    <td>
+                      {admin.role}
+                    </td>
+                    <td
+                    // className="clickable"
+                    // onClick={() => handleViewDetails(employee)}
+                    >{admin.email}</td>
+                    <td>
+                      {admin.password}
+                    </td>
+                    <td className="M1">
+                      <button
+                        className="edit-button"
+                        onClick={() => handleEdit(admin)}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="delete-button"
+                        onClick={() => handleDelete(admin.adminid)}
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          {/* Admin Details Modal */}
+          {/* {detailsModalOpen && selectedAdminDetails && (
+          <div className="pms-emp-pop">
+            <div className="pms-emp-pop-content">
+              <h2 className="pms-emp-pop1">Admin Details</h2>
+              <p className="emp-id">Admin ID: {selectedAdminDetails.adminid}</p>
+              <p>Full Name: {selectedAdminDetails.fullname}</p>
+              <p>Father's Name: {selectedAdminDetails.fathername}</p>
+              <p>Gender: {selectedAdminDetails.gender}</p>
+              <p>Date of Birth: {selectedAdminDetails.dateofbirth}</p>
+              <p>Marital Status: {selectedAdminDetails.maritalstatus}</p>
+              <p>Phone 1: {selectedAdminDetails.phone1}</p>
+              <p>Phone 2: {selectedAdminDetails.phone2}</p>
+              <p>Email: {selectedAdminDetails.email}</p>
+              <p>Password: {selectedAdminDetails.password}</p>
+              <p>Address: {selectedAdminDetails.address}</p>
+              <p>Role: {selectedAdminDetails.role}</p>
+              <p>Permanent Address: {selectedAdminDetails.permanentaddress}</p>
+              <button onClick={handleCancel}>Close</button>
+            </div>
+          </div>
+        )} */}
+
+
+          
+          {detailsModalOpen && selectedAdminDetails && (
+            <div className="pms-emp-pop">
+              <div className="pms-emp-pop-content">
+                <div className="emp-header">  <h2 className="pms-emp-pop1">Admin Details</h2> </div>
+                <h3 className="basicdetails">Basic Details</h3>
+                <div className="basicedit-main">
+
+
+                  <p className="basicedit">
+                    {selectedAdminDetails.imagePath ? (
+                      <img
+                        className="employeeimage"
+                        src={`http://localhost:5000/${selectedAdminDetails.imagePath}`}
+                        alt=""
+                        style={{ height: "140px", width: "140px" }}
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = matrical; // Fallback image URL or a placeholder
+                        }}
+                      />
+                    ) : (
+                      <span>No image available</span>
+                    )}
+                  </p>
+
+
+                  &nbsp;&nbsp;&nbsp;
+                  <img className="matrical-logo"
+                    src={matrical}
+                  // style={{ height: "130px", width: "130px " }}
+                  ></img>
+                  <br />
+                  <p className="basicedit">
+                    Full Name: {selectedAdminDetails.fullname}
+                  </p>
+                  <p className="basicedit">
+                    Father's Name: {selectedAdminDetails.fathername}
+                  </p>
+                  <p className="basicedit">
+                    Mother Name : {selectedAdminDetails.mothername}
+                  </p>
+                  <p className="basicedit">
+                    Department : {selectedAdminDetails.department}
+                  </p>
+                  <p className="basicedit">
+                    Gender: {selectedAdminDetails.gender}
+                  </p>
+                  <p className="basicedit">
+                    Date of Birth: {selectedAdminDetails.dateofbirth}
+                  </p>
+                  <p className="basicedit">
+                    Contact : {selectedAdminDetails.contactno}
+                  </p>
+                  <p className="basicedit">
+                    Alternate Number: {selectedAdminDetails.alternateno}
+                  </p>
+                  <p className="basicedit">
+                    Email: {selectedAdminDetails.email}
+                  </p>
+                  <p className="basicedit">
+                    Password: {selectedAdminDetails.password}
+                  </p>
+                  <p className="basicedit">
+                    Confirm Password: {selectedAdminDetails.confirmpassword}
+                  </p>
+                  <p className="basicedit">
+                    Local Address: {selectedAdminDetails.localaddress}
+                  </p>
+                  <p className="basicedit">
+                    Permenant Address:{" "}
+                    {selectedAdminDetails.permenantaddress}
+                  </p>
+                  <p className="basicedit">
+                    Joining Date: {selectedAdminDetails.joiningdate}
+                  </p>
+                  <p className="basicedit">
+                    Role: {selectedAdminDetails.role}
+                  </p>
+                </div>
+
+                <div className="extradetails">
+                  <p>Desigination : {selectedAdminDetails.desigination}</p>
+                  <p>Work Location: {selectedAdminDetails.worklocation}</p>
+                  <p>Martial Status: {selectedAdminDetails.martialstatus}</p>
+                  <p>Blood Group : {selectedAdminDetails.bloodgroup}</p>
+                </div>
+
+                <h3 className="identityclass">Identity Details :</h3>
+                <div className="identityedit-main">
+                  <p className="identityedit">
+                    Aadhar Number: {selectedAdminDetails.aadhar}
+                  </p>
+                  <p className="identityedit">
+                    PAN Number: {selectedAdminDetails.pan}
+                  </p>
+                  <p className="identityedit">
+                    Passport: {selectedAdminDetails.passport}
+                  </p>
+                  <p className="identityedit">
+                    Driving License: {selectedAdminDetails.drivinglicense}
+                  </p>
+                </div>
+
+                <h3 className="bankdetails">Bank Details</h3>
+                <div className="bankdetails-main">
+                  <p className="bankedit">
+                    Account Number: {selectedAdminDetails.accountno}
+                  </p>
+                  <p className="bankedit">
+                    Account Name: {selectedAdminDetails.accountname}
+                  </p>
+                  <p className="bankedit">
+                    IFSC Code: {selectedAdminDetails.ifsccode}
+                  </p>
+                  <p className="bankedit">
+                    Bank Name: {selectedAdminDetails.bankname}
+                  </p>
+                  <p className="bankedit">
+                    Branch: {selectedAdminDetails.branch}
+                  </p>
+                  <p className="bankedit">UAN: {selectedAdminDetails.uan}</p>
+                </div>
+
+                <h3 className="documentation">Documentation :</h3>
+                <div className="documentedit-main">
+                  <p className="documentedit">
+                    SSC: {selectedAdminDetails.tenth}
+                  </p>
+                  <p className="documentedit">
+                    Inter: {selectedAdminDetails.inter}
+                  </p>
+                  <p className="documentedit">
+                    Btech: {selectedAdminDetails.btech}
+                  </p>
+                  <p className="documentedit">
+                    Experience: {selectedAdminDetails.experience}
+                  </p>
+                  <p className="documentedit">
+                    Previous-PaySlip: {selectedAdminDetails.previouspayslip}
+                  </p>
+                  <p className="documentedit">
+                    Previous-Role: {selectedAdminDetails.previousrole}
+                  </p>
+                </div>
+
+
+                <div className="closebutton">
+                  <button onClick={handleCancel}>Close</button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          <Popup
+            open={selectedAdmin !== null || isAddPopupOpen}
+            onClose={handleCancel}
+            closeOnDocumentClick
+          >
+            <ManageadminForm
+              selectedAdmin={selectedAdmin}
+              onSubmit={handleAddOrUpdate}
+              onCancel={handleCancel}
+            />
+          </Popup>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Manageadmin;

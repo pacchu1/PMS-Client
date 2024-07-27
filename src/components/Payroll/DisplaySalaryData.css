@@ -1,0 +1,262 @@
+table {
+  border-collapse: collapse;
+}
+.inputfield324 {
+}
+.bg {
+  display: flex;
+    
+ 
+  background-image: url("https://t3.ftcdn.net/jpg/00/86/56/12/360_F_86561234_8HJdzg2iBlPap18K38mbyetKfdw1oNrm.jpg");
+  height: 100vh;
+  width: 100%;
+  overflow: auto;
+  background-size: cover;
+}
+/* Apply styles to table header cells */
+th {
+  text-wrap: nowrap;
+  background-color: black;
+  font-weight: bold;
+  padding: 8px;
+  text-align: center;
+  border: 1px solid white;
+  color: #f9f9f9;
+
+  width: fit-content;
+}
+/* Apply styles to table data cells */
+/* td {
+  padding: 4px;
+  text-align: center;
+  border: 1px solid #dddddd;
+  color: #dddddd;
+  font-size: 13px;
+  
+} */
+
+.thbody6{
+
+}
+.thbody67{
+  
+}
+.left332{
+text-align: left !important;
+}
+.btn445 {
+}
+.pdf657 {
+  cursor: pointer;
+  background-color: rgb(240 11 11);
+  color: whitesmoke;
+  border: 1px solid white;
+  border-radius: 3px;
+}
+.table654 {
+  border-collapse: separate;
+  border-spacing: 0px;
+  margin-top: 0px;
+}
+.table2314 {
+  border: 1px solid #dddddd;
+  width: 99%;
+height: 81%;
+  overflow: auto;
+}
+
+.headt76{
+  position: sticky;
+  top: 0;
+}
+.h43 {
+  text-decoration: underline;
+  text-align: center;
+  color: white;
+  font-size: 2rem;
+  margin: 0px;
+  margin-bottom: 1%;
+}
+.input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 1%;
+}
+
+/* Add this CSS to your stylesheet */
+.table-container {
+  overflow: auto;
+  height: 84%;
+  
+  border: 1px solid white;
+}
+
+.table-container-table21 {
+  border-collapse: separate;
+  border-spacing: 0px;
+  width: 100%;
+}
+
+.thead213 {
+  position: sticky;
+  top: 0;
+  border: 1px solid white;
+}
+.bg-small{
+  width: 93vw;
+    border: 1px solid white;
+    margin: 10px;
+    padding: 10px;
+}
+/* .table-container th, .table-container td {
+  padding: 8px;
+  border: 1px solid #ddd;
+} */
+
+.table-container::-webkit-scrollbar {
+  width: 5px; /* width of the scrollbar */
+  height: 5px;
+}
+
+.table-container::-webkit-scrollbar-track {
+  background: #f1f1f1; /* color of the track */
+}
+
+.table-container::-webkit-scrollbar-thumb {
+  background: #888; /* color of the scrollbar handle */
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+  background: #555; /* color of the scrollbar handle on hover */
+}
+.iconsearch08 {
+  color: #fff;
+  /* margin-left: 0px;
+  height: 36px; */
+  width: 30px;
+}
+
+.table2314::-webkit-scrollbar {
+  width: 12px;
+  height: 10px;
+}
+
+.table2314::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.table2314::-webkit-scrollbar-thumb {
+  background: #9c9a9a;
+}
+
+.table2314::-webkit-scrollbar-thumb:hover {
+  background: #a3a1a1;
+}
+
+.salary {
+  color: black;
+}
+
+.ReactModal__Overlay {
+  opacity: 0;
+  transition: opacity 300ms ease-in-out;
+}
+
+.ReactModal__Overlay--after-open {
+  opacity: 1;
+    backdrop-filter: blur(1px);
+    background-color: #808080e8 !important;
+}
+.ReactModal__Overlay--before-close {
+  opacity: 0;
+}
+
+.pdf {
+  position: relative;
+  font-size: 0.8em;
+  padding: 0.7em 1.4em;
+  background-color: #bf0426;
+  text-decoration: none;
+  border: none;
+  border-radius: 0.9em;
+  color: #dedede;
+  box-shadow: 0.5em 0.5em 0.5em rgba(0, 0, 0, 0.3);
+}
+.pdf::before {
+  position: absolute;
+  content: "";
+  height: 0;
+  width: 0;
+  top: 0;
+  left: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(33, 33, 33, 1) 0%,
+    rgba(33, 33, 33, 1) 50%,
+    rgba(150, 4, 31, 1) 50%,
+    rgba(191, 4, 38, 1) 60%
+  );
+  border-radius: 0 0 0.5em 0;
+  box-shadow: 0.2em 0.2em 0.2em rgba(0, 0, 0, 0.3);
+  transition: 0.3s;
+}
+.pdf:hover::before {
+  width: 1.6em;
+  height: 1.6em;
+}
+
+button:active {
+  box-shadow: 0.2em 0.2em 0.3em rgba(0, 0, 0, 0.3);
+  transform: translate(0.1em, 0.1em);
+}
+
+/* .input {
+    border-radius: 10px;
+  border: none;
+  outline: none;
+  padding: 1rem;
+  background-color: transparent;
+  cursor: pointer;
+  transition: all .5s ease-in-out;
+} */
+.input::placeholder {
+  color: transparent;
+  /* Initially hiding the placeholder text */
+}
+/* Styling for placeholder on input focus */
+.input:focus::placeholder {
+  color: rgb(131, 128, 128);
+}
+/* Styling when input is focused or not empty */
+.input:focus,
+.input:not(:placeholder-shown) {
+  background-color: #fff;
+  border: 1px solid rgb(91, 107, 255);
+  width: 290px;
+  cursor: none;
+  padding: 18px 16px 18px 45px;
+  /* Adjusted padding for icon */
+  position: relative;
+  left: 2rem;
+}
+/* .icon {
+ 
+  left: 0px;
+  height: 45px;
+ 
+  background-color: #fff;
+  border-radius: 99px;
+  z-index: 5;
+  fill: rgb(24, 111, 226);
+  
+  border: 1px solid rgb(91, 107, 255);
+  width: fit-content;
+} */
+/* Adjusting icon display on input focus or when not empty */
+.input:focus + .icon,
+.input:not(:placeholder-shown) + .icon {
+  z-index: 0;
+  background-color: transparent;
+  border: none;
+}
